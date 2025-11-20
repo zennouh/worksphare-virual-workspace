@@ -363,7 +363,7 @@ function closeModal() {
 function removeExpDom() {
   document.querySelectorAll(".experiences .experience").forEach((e) => (e as HTMLElement).outerHTML = "");
 }
-
+// getall data from exper inputs
 function extractExper(): IExperience[] | null {
   const allExpItems = document.querySelectorAll<HTMLElement>(".experience");
   if (allExpItems.length === 0) return [];
