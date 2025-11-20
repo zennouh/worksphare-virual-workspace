@@ -359,7 +359,7 @@ function closeModal() {
   imgPrev.src = "./assets/avatars/favatar.webp";
   modal.classList.add("is-hidden");
 }
-
+/// remove from ui
 function removeExpDom() {
   document.querySelectorAll(".experiences .experience").forEach((e) => (e as HTMLElement).outerHTML = "");
 }
