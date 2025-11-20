@@ -1,0 +1,127 @@
+
+#detail-modal.is-hidden {
+    display: none;
+}
+
+
+#detail-modal .modal__content {
+    position: absolute;
+    background: var(--dark-2);
+
+    width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    padding: 0;
+}
+
+
+#detail-modal .modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eee;
+    background: var(--dark-2);
+    border-radius: 12px 12px 0 0;
+}
+
+#detail-modal .modal__title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#detail-modal .modal__close {
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: #444;
+    transition: 0.2s;
+}
+
+#detail-modal .modal__close:hover {
+    color: #d00;
+    background-color: #696868;
+}
+
+#detail-modal .modal__body {
+    padding: 22px;
+}
+
+.detail-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.detail-avatar {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    margin-bottom: 14px;
+}
+
+#detail-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.detail-role {
+    font-size: 15px;
+    font-weight: 500;
+    color: #c7c7c7;
+    margin-bottom: 18px;
+}
+
+/* Contact Info */
+.detail-card p {
+    font-size: 15px;
+    color: #c7c7c7;
+    margin: 5px 0;
+}
+
+.detail-card strong {
+    color: white;
+}
+
+/* Experience section */
+.detail-card h3 {
+    margin-top: 18px;
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+}
+
+#detail-experience-list {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.detail-exp {
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--dark-1);
+    /* border-radius: 10px; */
+    margin-bottom: 12px;
+    border-left: 4px solid #0077ff;
+}
+
+.detail-exp p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.detail-exp hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 8px;
+}

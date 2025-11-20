@@ -1,0 +1,43 @@
+:root {
+    --dark-1: #0d1117;
+    --dark-2: #161b22;
+    --dark-3: #1b1f24;
+    --border-dark: #30363d;
+    --text-white: #ffffff;
+    --text-grey: #8b949e;
+    --accent-green: #2b6;
+    --zone-fill: rgba(100, 100, 150, 0.25);
+    --zone-empty: rgba(150, 70, 70, 0.18);
+    --zone-hover: rgba(70, 120, 200, 0.28);
+    --modal-overlay: rgba(0, 0, 0, 0.66);
+    --btn-red: red;
+    --btn-blue: #1d4ed8;
+    --border-white: white;
+}
+
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.btn {
+    border-radius: 0.5em;
+    font-size: 1em;
+    color: var(--text-white);
+    border: none;
+    padding: 0.8em;
+    cursor: pointer;
+}
+
+
+.is-hidden {
+    display: none;
+}

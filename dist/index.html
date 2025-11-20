@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/details.css" />
+    <link rel="stylesheet" href="./styles/addworker.css" />
+    <link rel="stylesheet" href="./styles/aside.css" />
+    <link rel="stylesheet" href="./styles/common.css" />
+    <title>WorkSphere</title>
+  </head>
+  <body>
+    
+    <aside class="side">
+      <div class="title">
+        <h2 class="title-side">Staff Members (Unassigned)</h2>
+        
+      </div>
+
+      <div class="member-list" id="member-list"></div>
+
+      <button class="btn btn-add-member" id="add-member" type="button">
+        <span>Add Member</span>
+      </button>
+    </aside>
+    <main id="main">
+      <div class="canvas" id="canvas">
+        <img class="map" src="assets/image/map.jpg" alt="Workplace" />
+        <svg
+          id="mapSvg"
+          viewBox="0 0 800 450"
+         
+        >
+          <polygon
+            id="zone-conference"
+            class="zone"
+            data-room="conference"
+            data-capacity="5"
+            points="0,0 300,0 300,150 0,150"
+          ></polygon>
+
+          <polygon
+            id="zone-security"
+            class="zone"
+            data-room="security"
+            data-capacity="2"
+            points="620,0 915,0 915,155 620,155"
+          ></polygon>
+
+          <polygon
+            id="zone-server"
+            class="zone"
+            data-room="server"
+            data-capacity="6"
+            points="440,0 615,0 615,155 440,155"
+          ></polygon>
+
+          <polygon
+            id="zone-reception"
+            class="zone"
+            data-room="reception"
+            data-capacity="4"
+            points="0,155 300,155 300,450 0,450"
+          ></polygon>
+
+          <polygon
+            id="zone-vault"
+            class="zone"
+            data-room="vault"
+            data-capacity="2"
+            points="620,300 793,300 793,450 620,450"
+          ></polygon>
+
+          <polygon
+            id="zone-staff"
+            class="zone"
+            data-room="staff"
+            data-capacity="5"
+            points="440,300 615,300 615,450 440,450"
+          ></polygon>
+        </svg>
+      </div>
+    </main>
+    <div class="modal is-hidden" id="modal">
+      <div class="modal__overlay"></div>
+      <div class="modal__content">
+        <header class="modal__header">
+          <h3 class="modal__title" id="modal-title">Add a member</h3>
+          <button
+            class="modal__close"
+            id="close-modal"
+            data-action="close-modal"
+          >
+            &times;
+          </button>
+        </header>
+        <div class="modal__body" id="modal-body">
+          <form class="form" id="form">
+            <div class="main-info">
+              <div class="form__group">
+                <label class="form__label" for="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  class="input"
+                  placeholder="Enter member name"
+                />
+              </div>
+
+              <div class="form__group">
+                <label class="form__label" for="">Role</label>
+                <select name="dropdownName" id="role">
+                  <option value="receptionist">Receptionist</option>
+                  <option value="it">It Guy</option>
+                  <option value="security">Security</option>
+                  <option value="cleaning">Cleaning</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form__group">
+                <label class="form__label" for="email">E-mail</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="input"
+                  placeholder="example.example@gmail.com"
+                />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="phone">Phone</label>
+                <input
+                  type="phone"
+                  id="phone"
+                  class="input"
+                  placeholder="06xxxxxx"
+                />
+              </div>
+
+              <!-- Image URL -->
+              <div class="form__group">
+                <label class="form__label" for="image">Image URL</label>
+                <input
+                  type="url"
+                  id="image"
+                  class="input link"
+                  placeholder="https://example.com/image.jpg"
+                />
+
+                <div class="img-frame">
+                  <img
+                    id="preview"
+                    src="./assets/avatars/favatar.webp"
+                    alt="Image Preview"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="experiences">
+              <div class="btn btn-add-exp">Add Experience</div>
+            </div>
+
+            <div class="form__actions">
+              <button type="submit" class="btn btn-add-tolist">
+                Add member
+              </button>
+              <!-- <button type="reset" class="btn btn--ghost">Clear</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <div class="modal is-hidden" id="detail-modal">
+      <div class="modal__overlay"></div>
+
+      <div class="modal__content">
+        <header class="modal__header">
+          <h3 class="modal__title">Member Details</h3>
+          <button class="modal__close" id="detail-close-btn">&times;</button>
+        </header>
+
+        <div class="modal__body" id="detail-modal-body">
+          <div class="detail-card">
+            <img id="detail-img" src="" alt="Avatar" class="detail-avatar" />
+
+            <h2 id="detail-name"></h2>
+            <p class="detail-role" id="detail-role"></p>
+
+            <p><strong>Email:</strong> <span id="detail-email"></span></p>
+            <p><strong>Phone:</strong> <span id="detail-phone"></span></p>
+
+            <hr />
+
+            <h3>Experience</h3>
+            <div id="detail-experience-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- <script src="index.js" type="module"></script> -->
+  <script src="add.js" type="module"></script>
+</html>
