@@ -23,8 +23,6 @@ const form = document.getElementById('form') as HTMLFormElement;
 const imgPrev = document.getElementById("preview") as HTMLImageElement;
 
 
-//// local storage
-
 function localStorageZoneCapacity() {
   localStorage.setItem("zone-capacity", JSON.stringify(zonesCapacity));
 }
@@ -68,7 +66,6 @@ function checkObligatoryZone() {
 }
 
 
-// drag and drop
 
 function onDrop(e: DragEvent) {
   e.preventDefault()
@@ -340,8 +337,6 @@ function initStackElements(member: IAMember) {
 }
 
 
-
-// modal
 function initModal() {
   addBtn.addEventListener("click", () => {
     modal.classList.remove("is-hidden");
@@ -359,11 +354,11 @@ function closeModal() {
   imgPrev.src = "./assets/avatars/favatar.webp";
   modal.classList.add("is-hidden");
 }
-/// remove from Dom
+
 function removeExpDom() {
   document.querySelectorAll(".experiences .experience").forEach((e) => (e as HTMLElement).outerHTML = "");
 }
-// getall data from exper inputs
+
 function extractExper(): IExperience[] | null {
   const allExpItems = document.querySelectorAll<HTMLElement>(".experience");
   if (allExpItems.length === 0) return [];
@@ -540,7 +535,7 @@ function createExperienceItem(index: string, experience: IExperience) {
   return wrapper;
 }
 
-// add image preview
+
 function previewImage() {
   const imageInput = document.getElementById("image") as HTMLInputElement;
 
@@ -609,7 +604,7 @@ function removeErrorMsg() {
 }
 
 
-//// detail modal
+
 
 function openDetailModalCan(member: IMember) {
   const modal = document.getElementById("detail-modal")!;
@@ -897,7 +892,7 @@ function initDetailModal() {
 }
 
 
-////// members
+
 
 function renderAllOneTime() {
   const container = document.getElementById("member-list")!;
