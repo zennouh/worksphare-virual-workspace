@@ -279,8 +279,6 @@ function createStackElement(
   return newEl
 }
 
-
-
 function initStackElements(member: IAMember) {
   const newEl = document.createElement('div')
 
