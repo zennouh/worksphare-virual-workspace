@@ -388,7 +388,7 @@ function extractExper(): IExperience[] | null {
 
   return experiences.length === 0 ? null : experiences;
 }
-
+ 
 function experienceGene(id: number): HTMLElement {
   const container = document.createElement("div");
   container.className = "experience";
