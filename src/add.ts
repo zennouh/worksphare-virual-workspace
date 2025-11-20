@@ -540,7 +540,7 @@ function createExperienceItem(index: string, experience: IExperience) {
   return wrapper;
 }
 
-
+// add image preview
 function previewImage() {
   const imageInput = document.getElementById("image") as HTMLInputElement;
 
