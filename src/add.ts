@@ -388,7 +388,7 @@ function extractExper(): IExperience[] | null {
 
   return experiences.length === 0 ? null : experiences;
 }
- 
+
 function experienceGene(id: number): HTMLElement {
   const container = document.createElement("div");
   container.className = "experience";
@@ -607,3 +607,373 @@ function removeSpecificError(parent: HTMLElement) {
 function removeErrorMsg() {
   document.querySelectorAll(".error-msg").forEach((e) => e.remove());
 }
+
+
+//// detail modal
+
+function openDetailModalCan(member: IMember) {
+  const modal = document.getElementById("detail-modal")!;
+  modal.classList.remove("is-hidden");
+
+  (document.getElementById("detail-img") as HTMLImageElement).src = member.image;
+  (document.getElementById("detail-name") as HTMLElement).textContent = member.name;
+  (document.getElementById("detail-role") as HTMLElement).textContent = (member.role as unknown as string).toUpperCase();
+  (document.getElementById("detail-email") as HTMLElement).textContent = member.email;
+  (document.getElementById("detail-phone") as HTMLElement).textContent = member.phone;
+
+  const expList = document.getElementById("detail-experience-list")!;
+  expList.innerHTML = "";
+
+  if (!member.experience || member.experience.length === 0) {
+    expList.innerHTML = "<p>No experience recorded.</p>";
+  } else {
+    member.experience.forEach(exp => {
+      const div = document.createElement("div");
+      div.className = "detail-exp";
+
+      div.innerHTML = `
+        <p><strong>Company:</strong> ${exp.company}</p>
+        <p><strong>Role:</strong> ${exp.role}</p>
+        <p><strong>From:</strong> ${new Date(exp.from).toLocaleDateString()}</p>
+        <p><strong>To:</strong> ${exp.to ? new Date(exp.to).toLocaleDateString() : "Present"}</p>
+        <hr />
+      `;
+
+      expList.appendChild(div);
+    });
+  }
+}
+
+function createModal(member: IMember) {
+  const modal = document.createElement("div");
+  modal.className = "modal is-hidden";
+  modal.id = "modal";
+
+  const overlay = document.createElement("div");
+  overlay.className = "modal__overlay";
+  modal.appendChild(overlay);
+
+  const content = document.createElement("div");
+  content.className = "modal__content";
+  modal.appendChild(content);
+
+  const header = document.createElement("header");
+  header.className = "modal__header";
+
+  const title = document.createElement("h3");
+  title.className = "modal__title";
+  title.id = "modal-title";
+  title.textContent = "Add a member";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "modal__close";
+  closeBtn.id = "close-modal";
+  closeBtn.dataset.action = "close-modal";
+  closeBtn.textContent = "×";
+
+  header.appendChild(title);
+  header.appendChild(closeBtn);
+  content.appendChild(header);
+
+  const body = document.createElement("div");
+  body.className = "modal__body";
+  body.id = "modal-body";
+  content.appendChild(body);
+
+  const form = document.createElement("form");
+  form.className = "form";
+  form.id = "form";
+  body.appendChild(form);
+
+  const mainInfo = document.createElement("div");
+  mainInfo.className = "main-info";
+  form.appendChild(mainInfo);
+
+  function createInputGroup(value: string, labelText: string, id: string, type: string, placeholder: string) {
+    const group = document.createElement("div");
+    group.className = "form__group";
+
+    const label = document.createElement("label");
+    label.className = "form__label";
+    label.htmlFor = id;
+    label.textContent = labelText;
+
+    const input = document.createElement("input");
+    input.value = value;
+    input.type = type;
+    input.id = id;
+    input.className = type;
+    input.classList.add(id)
+    input.placeholder = placeholder;
+
+    group.append(label, input);
+    return group;
+  }
+
+  mainInfo.appendChild(
+    createInputGroup(member.name, "Name", "name", "text", "Enter member name")
+  );
+  mainInfo.appendChild(
+    (function () {
+      const group = document.createElement("div");
+      group.className = "form__group";
+
+      const label = document.createElement("label");
+      label.className = "form__label";
+
+      label.textContent = "Role";
+
+      const select = document.createElement("select");
+      select.id = "role";
+      select.className = "role";
+
+      ["receptionist", "it", "security", "cleaning", "other"].forEach((r) => {
+        const option = document.createElement("option");
+        option.value = r;
+        option.textContent = r[0].toUpperCase() + r.slice(1);
+        select.appendChild(option);
+      });
+
+      group.append(label, select);
+      return group;
+    })()
+  );
+
+  mainInfo.appendChild(
+    createInputGroup(member.email, "E-mail", "email", "email", "example@example.com")
+  );
+
+  mainInfo.appendChild(
+    createInputGroup(member.phone, "Phone", "phone", "phone", "06xxxxxx")
+  );
+
+  const imgGroup = document.createElement("div");
+  imgGroup.className = "form__group";
+
+  const imgLabel = document.createElement("label");
+  imgLabel.className = "form__label";
+  imgLabel.textContent = "Image URL";
+  imgLabel.htmlFor = "image";
+
+  const imgInput = document.createElement("input");
+  imgInput.type = "url";
+  imgInput.id = "image";
+  imgInput.className = "input link";
+  imgInput.classList.add("image");
+  imgInput.value = member.image
+
+  const imgFrame = document.createElement("div");
+  imgFrame.className = "img-frame";
+
+  const preview = document.createElement("img");
+  preview.id = "preview";
+  preview.src = member.image;
+  preview.alt = "Image Preview";
+
+  imgFrame.appendChild(preview);
+  imgGroup.append(imgLabel, imgInput, imgFrame);
+  mainInfo.appendChild(imgGroup);
+
+  imgInput.addEventListener("input", () => {
+    preview.src = imgInput.value || "./assets/avatars/favatar.webp";
+  });
+
+  if (member.experience && member.experience.length !== 0) {
+    for (const ex of member.experience) {
+      mainInfo.appendChild(createExperienceItem(String(ex.id), ex));
+    }
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "form__actions";
+
+  const submitBtn = document.createElement("button");
+  submitBtn.type = "submit";
+  submitBtn.className = "btn btn-add-tolist";
+  submitBtn.textContent = "Update member";
+
+  actions.appendChild(submitBtn);
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    const nameInput = (form.getElementsByClassName("text")[0] as HTMLInputElement).value.trim();
+    const roleInput = (form.getElementsByClassName("role")[0] as HTMLSelectElement).value;
+    const emailInput = (form.getElementsByClassName("email")[0] as HTMLInputElement).value.trim();
+    const phoneInput = (form.getElementsByClassName("phone")[0] as HTMLInputElement).value.trim();
+    const imageInput = (form.getElementsByClassName("image")[0] as HTMLInputElement).value.trim();
+
+    member.name = nameInput;
+    member.role = roleInput as any;
+    member.email = emailInput;
+    member.phone = phoneInput;
+    member.image = imageInput;
+
+    const expElements = form.querySelectorAll(".experience");
+
+    member.experience = [];
+    expElements.forEach((exp: Element) => {
+      const id = Number(exp.getAttribute("data-exp-id"));
+      const company = (form.querySelector(`#company-${id}`) as HTMLInputElement).value;
+      const role = (form.querySelector(`#role-${id}`) as HTMLInputElement).value;
+      const from = ((form.querySelector(`#startDate-${id}`) as HTMLInputElement)).value;
+      const endVal = (form.querySelector(`#endDate-${id}`) as HTMLInputElement).value;
+      const to = endVal ? new Date(endVal) : null;
+
+      member.experience.push({
+        id: member.id.toString(),
+        company,
+        role,
+        from: new Date(from),
+        to,
+      });
+    });
+
+    saveInlocalStorage();
+
+    modal.classList.add("is-hidden");
+    renderAllOneTime()
+  })
+
+  form.appendChild(actions);
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("is-hidden");
+  });
+
+  overlay.addEventListener("click", () => {
+    modal.classList.add("is-hidden");
+  });
+
+  document.body.appendChild(modal);
+
+  return modal;
+}
+
+function openDetailModal(member: IMember) {
+  const modal = document.getElementById("detail-modal")!;
+  modal.classList.remove("is-hidden");
+
+  (document.getElementById("detail-img") as HTMLImageElement).src = member.image;
+  (document.getElementById("detail-name") as HTMLElement).textContent = member.name;
+  (document.getElementById("detail-role") as HTMLElement).textContent = (member.role as unknown as string).toUpperCase();
+  (document.getElementById("detail-email") as HTMLElement).textContent = member.email;
+  (document.getElementById("detail-phone") as HTMLElement).textContent = member.phone;
+
+  const expList = document.getElementById("detail-experience-list")!;
+  expList.innerHTML = "";
+
+  if (!member.experience || member.experience.length === 0) {
+    expList.innerHTML = "<p>No experience recorded.</p>";
+  } else {
+    member.experience.forEach(exp => {
+      const div = document.createElement("div");
+      div.className = "detail-exp";
+
+      div.innerHTML = `
+        <p><strong>Company:</strong> ${exp.company}</p>
+        <p><strong>Role:</strong> ${exp.role}</p>
+        <p><strong>From:</strong> ${new Date(exp.from).toLocaleDateString()}</p>
+        <p><strong>To:</strong> ${exp.to ? new Date(exp.to).toLocaleDateString() : "Present"}</p>
+        <hr />
+      `;
+
+      expList.appendChild(div);
+    });
+  }
+}
+
+function initDetailModal() {
+  const modal = document.getElementById("detail-modal")!;
+  const closeBtn = document.getElementById("detail-close-btn")!;
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("is-hidden");
+  });
+
+  modal.querySelector(".modal__overlay")!.addEventListener("click", () => {
+    modal.classList.add("is-hidden");
+  });
+}
+
+
+////// members
+
+function renderAllOneTime() {
+  const container = document.getElementById("member-list")!;
+  container.innerHTML = ""
+  unassignedMembers.forEach((un) => {
+    renderSideBar(un);
+  })
+}
+
+function renderSideBar(member: IMember) {
+  const container = document.getElementById("member-list")!;
+  const div = document.createElement("div");
+
+  div.className = "member";
+  div.draggable = true;
+  div.id = `side-${member.id}`;
+  div.dataset.type = member.role;
+
+  div.innerHTML = `
+    <div class="member-card">
+  <img class="avatar" src="${member.image}" alt="avatar" />
+
+  <div class="info">
+    <div class="name">${member.name}</div>
+    <div class="post">${(member.role as unknown as string).toUpperCase()}</div>
+
+    <div class="member-btns">
+      <div class="edit-btn">Edit</div>
+      <div class="detail-btn">Details</div>
+      <div class="delete-btn">Delete</div>
+    </div>
+  </div>
+</div>
+
+  `;
+  document.querySelector("#member-list p")?.classList.add("is-hidden")
+  div.querySelector(".detail-btn")!.addEventListener("click", () => {
+    openDetailModal(member);
+  });
+  div.querySelector(".edit-btn")!.addEventListener("click", () => {
+    const modale = createModal(member);
+    modale.classList.remove("is-hidden");
+  });
+  div.querySelector(".delete-btn")!.addEventListener("click", () => {
+    div.remove()
+    const indexOf = unassignedMembers.indexOf(member);
+    if (indexOf > -1) {
+      unassignedMembers.splice(indexOf, 1)
+    }
+    saveInlocalStorage()
+    if (unassignedMembers.length == 0) {
+      document.querySelector("#member-list p")?.classList.remove("is-hidden")
+    }
+  });
+  div!.addEventListener('dragstart', (e) => {
+    const memberName = member.name
+    const image = member.image
+    const dataTransfer = (e as DragEvent).dataTransfer
+    dataTransfer?.setData('type', member.role)
+    dataTransfer?.setData('name', memberName!)
+    dataTransfer?.setData('image', image!)
+    dataTransfer?.setData('role', member.role!)
+    dataTransfer?.setData('email', member.email!)
+    dataTransfer?.setData('phone', member.phone!)
+    dataTransfer?.setData('zone', member.zone!)
+    dataTransfer?.setData('expers', JSON.stringify(member.experience))
+    dataTransfer?.setData('id', `${member.id}`)
+  })
+  container.appendChild(div);
+}
+
+
+getLocalStorZoneCapacity()
+checkObligatoryZone();
+dragAndDrop()
+getFromLocalStrorage()
+initModal();
+initForm();
+initDetailModal();
