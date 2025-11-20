@@ -1,5 +1,7 @@
 import { IExperience, IMember, IAMember, inputFields } from './utility/mytypes.js';
 import { checkRoomeAndRole, stringValidate, toRoleEnumValue, toRoomEnumValue } from "./utility/helpers.js";
+import avatar from "./assets/avatars/favatar.webp";
+
 
 const unassignedMemberKey = "unassignedMemberKey"
 const assignedMemberKey = "assignedMemberKey"
@@ -351,7 +353,7 @@ function initModal() {
 function closeModal() {
   form.reset();
   removeExpDom()
-  imgPrev.src = "./assets/avatars/favatar.webp";
+  imgPrev.src = avatar;
   modal.classList.add("is-hidden");
 }
 
@@ -770,7 +772,7 @@ function createModal(member: IMember) {
   mainInfo.appendChild(imgGroup);
 
   imgInput.addEventListener("input", () => {
-    preview.src = imgInput.value || "./assets/avatars/favatar.webp";
+    preview.src = imgInput.value || avatar;
   });
 
   if (member.experience && member.experience.length !== 0) {
@@ -964,11 +966,16 @@ function renderSideBar(member: IMember) {
   container.appendChild(div);
 }
 
-
+//h
+function loadImage() {
+  const imageEle = document.querySelector(".img-frame img#preview") as HTMLImageElement;
+  imageEle.src = avatar;
+}
+loadImage()
 getLocalStorZoneCapacity()
 checkObligatoryZone();
 dragAndDrop()
 getFromLocalStrorage()
 initModal();
 initForm();
-initDetailModal();
+initDetailModal(); 

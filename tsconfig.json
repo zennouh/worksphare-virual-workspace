@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "target": "ES6",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "strict": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
-    "esModuleInterop": true
+    "noEmit": true
   },
-  "exclude": ["**/*.test.ts"]
+  "include": ["src"]
 }

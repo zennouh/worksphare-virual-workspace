@@ -1,5 +1,5 @@
-import { roleEnum, RoomAccess, roomEnum } from './enum.js'
-import { inputFields } from './mytypes.js'
+import { roleEnum, RoomAccess, roomEnum } from './enum'
+import { inputFields } from './mytypes'
 
 export function checkRoomeAndRole(role: roleEnum, room: roomEnum): boolean {
   return RoomAccess[room].includes(role)
