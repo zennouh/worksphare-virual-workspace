@@ -7,7 +7,7 @@ async function checkMessage() {
 
         const msg = await fs.readFile(file, "utf-8");
 
-        const regex = /^WVW:\s.+$/
+        const regex = /^(WVW:|DEPLOY:)\s.+$/
 
         if (regex.test(msg.trim())) {
             process.exit(0)
