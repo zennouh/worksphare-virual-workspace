@@ -47,7 +47,7 @@ jobs:
       - name: Merge dev into main
         run: |
           git fetch origin
-          git checkout main
+          git checkout -b main
           git pull origin main
           git merge origin/dev --allow-unrelated-histories --strategy-option=theirs -m "CI: Auto-merge dev into main (force theirs)"
 
