@@ -51,9 +51,10 @@ function getFromLocalStrorage() {
 
 
 function checkObligatoryZone() {
+  // const polygones = Array.from(document.getElementsByTagName("polygon"))
   const polygones = Array.from(document.getElementsByTagName("polygon"))
     .filter((zone) => !zone.dataset.room!.includes("conference") && !zone.dataset.room!.includes("reception"))
-  console.log(polygones);
+
 
   polygones.forEach((zone) => {
     const zoneName = zone.dataset.room! as ZoneType;
@@ -61,6 +62,7 @@ function checkObligatoryZone() {
       zone.classList.add("empty")
     } else {
       zone.classList.remove("empty")
+
     }
   })
 
@@ -914,21 +916,20 @@ function renderSideBar(member: IMember) {
   div.dataset.type = member.role;
 
   div.innerHTML = `
-    <div class="member-card">
-  <img class="avatar" src="${member.image}" alt="avatar" />
-
-  <div class="info">
-    <div class="name">${member.name}</div>
-    <div class="post">${(member.role as unknown as string).toUpperCase()}</div>
-
-    <div class="member-btns">
-      <div class="edit-btn">Edit</div>
-      <div class="detail-btn">Details</div>
-      <div class="delete-btn">Delete</div>
-    </div>
-  </div>
-</div>
-
+      <div class="member-card">
+        <div class='first-info'>
+            <img class="avatar" src="${member.image}" alt="avatar" />
+            <div class="info">
+                <div class="name">${member.name}</div>
+                <div class="post">${(member.role as string).toUpperCase()}</div>
+            </div>
+        </div>
+        <div class="member-btns">
+            <div class="edit-btn">Edit</div>
+            <div class="detail-btn">Details</div>
+            <div class="delete-btn">Delete</div>
+        </div>
+      </div>
   `;
   document.querySelector("#member-list p")?.classList.add("is-hidden")
   div.querySelector(".detail-btn")!.addEventListener("click", () => {

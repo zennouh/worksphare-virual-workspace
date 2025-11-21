@@ -11,8 +11,8 @@
     border-radius: 1em;
     justify-content: space-around;
     align-items: center;
-    height: 100px;
-    width: 200px;
+    height: 7em;
+    width: 15em;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -20,8 +20,6 @@
 
 .member:hover {
     transition: all ease-in-out 0.5s;
-    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2),
-        0 6px 20px 0 rgba(255, 255, 255, 0.19);
     top: -2px;
 }
 
@@ -52,6 +50,12 @@
     gap: 10px;
     overflow-x: scroll;
 }
+
+.first-info {
+    display: flex;
+    flex-direction: row;
+}
+
 
 .member .info {
     display: flex;
@@ -116,24 +120,22 @@
 
 .member-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 18px;
-    padding: 18px;
+    
+    padding: .4em;
     background: var(--dark-3);
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     transition: .25s ease;
-    border: 1px solid #eee;
 }
 
 .side {
-  margin: 0.5em 0;
-  width: calc(100vw - 1em);
-  background-color: var(--dark-2);
-  padding: 1em;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+    margin: 0.5em 0;
+    width: calc(100vw - 1em);
+    background-color: var(--dark-2);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 
 }
 
@@ -191,13 +193,14 @@
 @media (min-width: 767px) and (max-width: 1023px) {
     .side {
         width: 100vw;
-        height: 30vh;
-        max-height: 30vh;
+        height: 40vh;
+        max-height: 45vh;
         background-color: var(--dark-2);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
+
 
     .title-side {
         font-size: 1.5em;
@@ -216,6 +219,7 @@
         place-items: center;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         grid-template-rows: 2;
+        height: 20em;
     }
 
     .member {
@@ -225,8 +229,8 @@
         border-radius: 1em;
         justify-content: space-around;
         align-items: center;
-        height: 90px;
-        width: 250px;
+        height: 7em;
+        width: 15em;
     }
 }
 
@@ -237,6 +241,7 @@
     .side {
         margin: 0 0;
         width: 25vw;
+
         border-radius: 0.5em;
         height: calc(100vh - 1em);
         background-color: var(--dark-2);
