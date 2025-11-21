@@ -46,11 +46,11 @@ jobs:
 
       - name: Merge dev into main
         run: |
-         git fetch origin
-         git checkout -b main origin/dev 
-         git push origin main                 
-         git merge origin/dev --allow-unrelated-histories --strategy-option=theirs -m "CI: Auto-merge dev into main (force theirs)"
-         git push origin main
+          git fetch origin
+          git checkout main
+          git pull origin main
+          git merge origin/dev --allow-unrelated-histories --strategy-option=theirs -m "CI: Auto-merge dev into main (force theirs)"
+
   cd:
     runs-on: ubuntu-latest
     needs: ci
